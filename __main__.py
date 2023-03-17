@@ -6,7 +6,7 @@ if __name__ == "__main__":
 
     context = pyudev.Context()
     monitor = pyudev.Monitor.from_netlink(context)
-    monitor.filter_by(subsystem="usb")
+    monitor.filter_by(subsystem="usb", device_type="usb_device")
 
     for action, device in monitor:
         logger.info(f"{action}: {device}")
