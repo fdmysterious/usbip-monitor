@@ -9,4 +9,12 @@ if __name__ == "__main__":
     monitor.filter_by(subsystem="usb", device_type="usb_device")
 
     for action, device in monitor:
-        logger.info(f"{action}: {device}")
+        logger.debug(f"{action}: {device}")
+
+        if action == "bind":
+            logger.info(f"Bind action for {device.sys_name}")
+
+        elif action=="unbind":
+            logger.warning(f"Unbind action for {device.sys_name}")
+
+
