@@ -47,6 +47,16 @@ if __name__ == "__main__":
     monitor = pyudev.Monitor.from_netlink(context)
     monitor.filter_by(subsystem="usb", device_type="usb_device")
 
+    logger.info("Bind already existing devices...")
+    for dev in context.list_devices(subsystem="usb", DEVTYPE="usb_device"):
+        if (dev.driver != "usbip-host"):
+            if dev.sys_name in ignore_list:
+                logger.warning(f"Ignore {dev}, which is in ignore list")
+            else:
+                usbip_bind(dev)
+
+
+    logger.info("Listen for events...")
     for action, device in monitor:
         logger.debug(f"{action}: {device}")
 
